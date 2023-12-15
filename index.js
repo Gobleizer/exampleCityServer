@@ -30,7 +30,7 @@ app.post('/cities', (req, res) => {
 
   let queryParams = [name, population, state, mayor];
   pool.query('INSERT INTO cities VALUES($1, $2, $3, $4)', queryParams)
-    .then((result) => res.send(result.rows))
+    .then((result) => res.send("New City Added~!"))
     .catch((error) => {
       console.error(error);
       res.status(500).send("Sorry, can't add a new city now.");
