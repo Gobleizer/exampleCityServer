@@ -27,9 +27,14 @@ app.get('/cities', (req, res) => {
 
 app.post('/cities', (req, res) => {
   let {name, population, state, mayor} = req.body;
-  pool.query('INSERT INTO cities VALUES($1, $2, $3, $4)', [name, population, state, mayor])
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+
+  let queryParams = [name, population, state, mayor];
+  pool.query('INSERT INTO cities VALUES($1, $2, $3, $4)', queryParams)
+    .then((result) => res.send(result.rows))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Sorry, can't add a new city now.");
+    });
 });
 
 app.listen(expressPort, ()=> console.log('Listening at port ', expressPort));
